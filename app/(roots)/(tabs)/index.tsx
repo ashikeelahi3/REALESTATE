@@ -5,6 +5,7 @@ import { Text, View, StyleSheet } from 'react-native'
 const Index = () =>{
     return (
       <View style={styles.main}>
+        <Text className='font-bold text-lg my-10'>Welcome to RealState</Text>
         <Link href="/SignIn">Sign In</Link>
         <Link href="/explore">Explore</Link>
         <Link href="/profile">Profile</Link>
@@ -12,7 +13,7 @@ const Index = () =>{
       </View>
     )
 }
-
+  
 const styles = StyleSheet.create({
   main: {
     flex: 1,
