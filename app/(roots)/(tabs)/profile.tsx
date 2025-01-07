@@ -1,11 +1,33 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, Image, TouchableOpacity, ImageSourcePropType, Alert } from 'react-native'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import icons from '@/constants/icons';
 import images from '@/constants/images';
+import { settings } from '@/constants/data';
+
+
+interface SettingsItemProps {
+  icon: ImageSourcePropType
+  title: string
+  onPress?: () => void
+  textStyle?: any
+  showArrow?: boolean
+}
+
+const SettingsItem = ({icon, title, onPress, textStyle, showArrow = true}: SettingsItemProps) => (
+    <TouchableOpacity onPress={onPress} className='flex flex-row items-center justify-between p-3'>
+      <View className='flex flex-row items-center gap-3'>
+        <Image source={icon} className='size-6' />
+        <Text className={`text-lg font-rubik-medium text-black-300 ${textStyle}`}>{title}</Text>
+      </View>
+      {showArrow && <Image source={icons.rightArrow} className='size-5' />}
+    </TouchableOpacity>
+  );
 
 const profile = () => {
-  const handleLogout = async () => {};
+  const handleLogout = async () => {
+    Alert.alert("Are you sure you want to log")
+  };
 
   return (
     <SafeAreaView className='h-full bg-white'>
@@ -27,7 +49,18 @@ const profile = () => {
             <Text className='text-2xl font-rubik-bold mt-2'>Ashik E Elahi</Text>
           </View>
         </View>
-        <View className='flex flex-col mt-10' />
+        <View className='flex flex-col mt-10'>
+          <SettingsItem icon={icons.calendar}  title='My Bookings'/>
+          <SettingsItem icon={icons.wallet}  title='Payments'/>
+        </View>
+        <View className='flex flex-col mt-5 border-t pt-5 border-primary-200'>
+          {settings.slice(2).map((item, index) => (
+            <SettingsItem key={index} {...item} />
+          ))}
+        </View>
+        <View className='flex flex-col mt-5 border-t pt-5 border-primary-200'>
+          <SettingsItem icon={icons.logout} title='Logout' textStyle='text-danger' showArrow={false} onPress={handleLogout}/>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
