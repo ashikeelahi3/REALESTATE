@@ -5,7 +5,6 @@ const Index = () =>{
     return (
       <View style={styles.main}>
         <Text className='font-bold my-10 font-rubik text-3xl'>Welcome to RealState</Text>
-        
       </View>
     )
 }
