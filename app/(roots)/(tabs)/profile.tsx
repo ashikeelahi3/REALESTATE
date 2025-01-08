@@ -4,6 +4,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import icons from '@/constants/icons';
 import images from '@/constants/images';
 import { settings } from '@/constants/data';
+import { useGlobalContext } from '@/lib/global-provider';
+import { logout } from '@/lib/appwrite';
 
 
 interface SettingsItemProps {
@@ -25,8 +27,17 @@ const SettingsItem = ({icon, title, onPress, textStyle, showArrow = true}: Setti
   );
 
 const profile = () => {
+  const { user, refetch } = useGlobalContext();
+
   const handleLogout = async () => {
-    Alert.alert("Are you sure you want to log")
+    const result = await logout()
+
+    if(result) {
+      Alert.alert("Success", "You have been logged out")
+      refetch()
+    } else {
+      Alert.alert("Error", "Failed to log out")
+    }
   };
 
   return (
@@ -42,11 +53,11 @@ const profile = () => {
 
         <View className='flex-row justify-center flex mt-5'>
           <View className='flex flex-col items-center relative mt-5'>
-            <Image source={images.avatar} className='size-44 relative rounded-full' />
+            <Image source={{uri: user?.avatar}} className='size-44 relative rounded-full' />
             <TouchableOpacity className='absolute bottom-11 right-2'>
               <Image source={icons.edit} className='size-9' />
             </TouchableOpacity>
-            <Text className='text-2xl font-rubik-bold mt-2'>Ashik E Elahi</Text>
+            <Text className='text-2xl font-rubik-bold mt-2'>{user?.name}</Text>
           </View>
         </View>
         <View className='flex flex-col mt-10'>
